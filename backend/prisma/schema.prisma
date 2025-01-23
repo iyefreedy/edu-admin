@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  role     Role
+
+  Assignment Assignment[]
+  Grade      Grade[]
+}
+
+model Assignment {
+  id        Int     @id @default(autoincrement())
+  title     String
+  subject   Subject
+  content   String
+  studentId Int
+
+  student User   @relation(fields: [studentId], references: [id])
+  Grade   Grade?
+}
+
+model Grade {
+  id           Int    @id @default(autoincrement())
+  score        Int
+  feedback     String
+  teacherId    Int
+  assignmentId Int    @unique
+
+  teacher    User       @relation(fields: [teacherId], references: [id])
+  assignment Assignment @relation(fields: [assignmentId], references: [id])
+}
+
+enum Role {
+  TEACHER
+  STUDENT
+}
+
+enum Subject {
+  MATH
+  ENGLISH
+}
