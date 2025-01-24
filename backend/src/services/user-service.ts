@@ -61,7 +61,9 @@ export class UserService {
     }
 
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const token = await new jose.SignJWT({ sub: user.id }).sign(secret);
+    const token = await new jose.SignJWT({ sub: user.id })
+      .setProtectedHeader({ alg: "HS256" })
+      .sign(secret);
 
     return {
       token,
