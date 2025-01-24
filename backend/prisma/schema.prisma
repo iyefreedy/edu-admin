@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   email     String   @unique
   password  String
@@ -31,7 +31,7 @@ model Assignment {
   title     String
   subject   Subject
   content   String
-  studentId Int
+  studentId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -43,7 +43,7 @@ model Grade {
   id           Int      @id @default(autoincrement())
   score        Int
   feedback     String
-  teacherId    Int
+  teacherId    String
   assignmentId Int      @unique
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
