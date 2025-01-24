@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint",
-    "dev": "nodemon src/main.ts"
+    "dev": "nodemon src/main.ts",
+    "build": "tsc"
   },
   "jest": {
     "transform": {

@@ -22,8 +22,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Assignment Assignment[]
-  Grade      Grade[]
+  assignments Assignment[]
+  grade       Grade[]
 }
 
 model Assignment {
@@ -36,7 +36,7 @@ model Assignment {
   updatedAt DateTime @updatedAt
 
   student User   @relation(fields: [studentId], references: [id])
-  Grade   Grade?
+  grade   Grade?
 }
 
 model Grade {
