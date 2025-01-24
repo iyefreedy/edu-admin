@@ -1,12 +1,13 @@
-import database from "../database";
+import database from "../core/database";
 import bcrypt from "bcrypt";
-import { CreateUserRequest } from "../models/user-request";
-import { CREATE } from "../schema/user-schema";
-import { validate } from "../validation";
+import { CreateUserRequest, LoginRequest } from "../models/user-request";
+import UserSchema from "../schema/user-schema";
+import { validate } from "../utils/validation";
+import ResponseError from "../models/response-error";
 
 export class UserService {
   static async createUser(request: CreateUserRequest) {
-    const user = validate(CREATE, request);
+    const user = validate(UserSchema.CREATE, request);
 
     const existingUser = await database.user.findFirst({
       where: {
@@ -15,7 +16,7 @@ export class UserService {
     });
 
     if (existingUser) {
-      throw new Error("User already exists");
+      throw new ResponseError(400, "User already exists");
     }
 
     user.password = await bcrypt.hash(user.password, 10);
@@ -27,6 +28,37 @@ export class UserService {
         role: user.role,
         password: user.password,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
+  }
+
+  static async login(request: LoginRequest) {
+    const user = await database.user.findFirst({
+      where: {
+        email: request.email,
+      },
+    });
+
+    if (!user) {
+      throw new ResponseError(400, "Invalid email or password");
+    }
+
+    const isPasswordMatches = await bcrypt.compare(
+      request.password,
+      user.password
+    );
+
+    if (!isPasswordMatches) {
+      throw new ResponseError(400, "Invalid email or password");
+    }
+
+    return user;
   }
 }
