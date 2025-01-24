@@ -21,8 +21,7 @@ describe("POST /api/users/login", () => {
       .post("/api/users/login")
       .send({ email: input.email, password: input.password });
 
-    console.log(response.body);
-
     expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("accessToken");
   });
 });

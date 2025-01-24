@@ -61,10 +61,10 @@ export class UserService {
       throw new ResponseError(400, "Invalid email or password");
     }
 
-    const token = await createAccessToken(user);
+    const accessToken = await createAccessToken(user);
 
     return {
-      token,
+      accessToken,
     };
   }
 }
