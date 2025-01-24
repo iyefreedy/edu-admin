@@ -30,6 +30,12 @@ This is the backend service for the Edu-Admin application. It provides APIs for 
    DATABASE_URL="file:./dev.db"
    ```
 
+   or copy `.env.example`
+
+   ```sh
+   cp .env.example .env
+   ```
+
 4. Migrate database schema
    ```sh
    npx prisma db push
