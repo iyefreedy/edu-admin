@@ -1,8 +1,10 @@
 import { z } from "zod";
 
-export const CREATE = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  password: z.string(),
-  role: z.string(),
-});
+export default class UserSchema {
+  static readonly CREATE = z.object({
+    name: z.string(),
+    email: z.string().email(),
+    password: z.string(),
+    role: z.enum(["STUDENT", "TEACHER"]),
+  });
+}

@@ -6,3 +6,8 @@ export type CreateUserRequest = {
   role: Role;
   password: string;
 };
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};

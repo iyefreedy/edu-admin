@@ -14,33 +14,39 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  role     Role
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  Assignment Assignment[]
-  Grade      Grade[]
+  assignments Assignment[]
+  grade       Grade[]
 }
 
 model Assignment {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   title     String
   subject   Subject
   content   String
-  studentId Int
+  studentId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   student User   @relation(fields: [studentId], references: [id])
-  Grade   Grade?
+  grade   Grade?
 }
 
 model Grade {
-  id           Int    @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   score        Int
   feedback     String
-  teacherId    Int
-  assignmentId Int    @unique
+  teacherId    String
+  assignmentId Int      @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   teacher    User       @relation(fields: [teacherId], references: [id])
   assignment Assignment @relation(fields: [assignmentId], references: [id])
