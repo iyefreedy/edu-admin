@@ -3,16 +3,37 @@ import { CreateAssignmentRequest } from "../models/assignment-model";
 import ResponseError from "../error/response-error";
 import AssignmentSchema from "../schema/assignment-schema";
 import { validate } from "../utils/validation";
+import { Subject } from "@prisma/client";
+import logger from "../core/logger";
 
 export class AssignmentService {
+  static async allAssignments(subject: string) {
+    logger.info(subject);
+    return database.assignment.findMany({
+      where: {
+        subject: subject as Subject,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        subject: true,
+        student: true,
+        createdAt: true,
+        updatedAt: true,
+        grade: true,
+      },
+    });
+  }
+
   static async createAssignment(
-    createAssignmentRequest: CreateAssignmentRequest
+    createAssignmentRequest: CreateAssignmentRequest,
+    studentId: string
   ) {
     const assignment = validate(
       AssignmentSchema.CREATE,
       createAssignmentRequest
     );
-    const studentId = "";
 
     const existingAssignment = await database.assignment.findFirst({
       where: {

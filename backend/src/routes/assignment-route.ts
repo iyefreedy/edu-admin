@@ -5,9 +5,13 @@ import authMiddleware from "../middleware/auth-middleware";
 
 const assignmentRoute = Router()
   .use(authMiddleware)
-  .get("/assignments", roleMiddleware(["TEACHER"]))
+  .get(
+    "/api/assignments",
+    roleMiddleware(["TEACHER"]),
+    AssignmentController.getAssignments
+  )
   .post(
-    "/assignments",
+    "/api/assignments",
     roleMiddleware(["STUDENT"]),
     AssignmentController.createAssignment
   );
