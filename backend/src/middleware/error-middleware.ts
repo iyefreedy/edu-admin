@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-import ResponseError from "../models/response-error";
+import ResponseError from "../error/response-error";
 
 export default function errorMiddleware(
   err: Error,
