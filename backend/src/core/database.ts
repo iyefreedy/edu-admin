@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import logger from "./logger";
 
 const database = new PrismaClient({
   log: [
@@ -19,6 +20,10 @@ const database = new PrismaClient({
       level: "error",
     },
   ],
+});
+
+database.$on("query", (event) => {
+  logger.info(event.query);
 });
 
 export default database;

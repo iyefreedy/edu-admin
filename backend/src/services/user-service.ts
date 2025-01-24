@@ -67,4 +67,23 @@ export class UserService {
       accessToken,
     };
   }
+
+  static async assignments(userId: string) {
+    return database.assignment.findMany({
+      where: {
+        studentId: userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        subject: true,
+        grade: {
+          select: {
+            feedback: true,
+            score: true,
+          },
+        },
+      },
+    });
+  }
 }
