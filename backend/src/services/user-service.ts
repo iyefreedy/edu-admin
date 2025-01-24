@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
-import jose from "jose";
+
 import database from "../core/database";
 import { CreateUserRequest, LoginRequest } from "../models/user-request";
 import UserSchema from "../schema/user-schema";
 import { validate } from "../utils/validation";
 import ResponseError from "../models/response-error";
+import { createAccessToken } from "../utils/jwt";
 
 export class UserService {
   static async createUser(request: CreateUserRequest) {
@@ -60,10 +61,7 @@ export class UserService {
       throw new ResponseError(400, "Invalid email or password");
     }
 
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const token = await new jose.SignJWT({ sub: user.id })
-      .setProtectedHeader({ alg: "HS256" })
-      .sign(secret);
+    const token = await createAccessToken(user);
 
     return {
       token,
