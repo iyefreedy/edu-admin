@@ -50,3 +50,8 @@ This is the backend service for the Edu-Admin application. It provides APIs for 
    ```
 
 2. The server will be running at `http://localhost:3000`.
+
+## API Examples
+
+For API examples with sample requests and responses
+[Postman](https://www.postman.com/bold-meadow-120941/workspace/edu-admin/collection/10557371-f9055ffc-9264-46c9-8ecb-b5ef51bf6cbd?action=share&creator=10557371)
