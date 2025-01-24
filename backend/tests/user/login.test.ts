@@ -9,10 +9,20 @@ describe("POST /api/users/login", () => {
 
   it("should return 200 with valid input", async () => {
     const input = {
-      email: "student@example.com",
+      name: "Student 2",
+      email: "student2@example.com",
       password: "password",
+      role: "STUDENT",
     };
 
-    await supertest(app).post("/api/users/login").send(input);
+    await supertest(app).post("/api/users").send(input);
+
+    const response = await supertest(app)
+      .post("/api/users/login")
+      .send({ email: input.email, password: input.password });
+
+    console.log(response.body);
+
+    expect(response.status).toBe(200);
   });
 });
