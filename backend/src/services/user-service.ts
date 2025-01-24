@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 
 import database from "../core/database";
-import { CreateUserRequest, LoginRequest } from "../models/user-request";
+import { CreateUserRequest, LoginRequest } from "../models/user-model";
 import UserSchema from "../schema/user-schema";
 import { validate } from "../utils/validation";
-import ResponseError from "../models/response-error";
+import ResponseError from "../error/response-error";
 import { createAccessToken } from "../utils/jwt";
 
 export class UserService {
