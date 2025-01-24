@@ -16,7 +16,22 @@ export class UserController {
     try {
       const result = await UserService.login(req.body);
 
-      return res.status(200).cookie("access_token", result.token).json(result);
+      return res
+        .status(200)
+        .cookie("accessToken", result.accessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "none",
+        })
+        .json(result);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async me(req: Request, res: Response, next: NextFunction) {
+    try {
+      return res.status(200).json(req.user);
     } catch (error) {
       return next(error);
     }
