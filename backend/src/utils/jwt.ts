@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { SignJWT } from "jose";
+import { SignJWT, jwtVerify } from "jose";
 
 export const createAccessToken = async (user: User) => {
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
@@ -8,4 +8,13 @@ export const createAccessToken = async (user: User) => {
     .sign(secret);
 
   return token;
+};
+
+export const verifyAccessToken = async (token: string) => {
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+  const { payload } = await jwtVerify(token, secret, {
+    algorithms: ["HS256"],
+  });
+
+  return payload;
 };
