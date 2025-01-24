@@ -1,5 +1,6 @@
-import database from "../core/database";
 import bcrypt from "bcrypt";
+import jose from "jose";
+import database from "../core/database";
 import { CreateUserRequest, LoginRequest } from "../models/user-request";
 import UserSchema from "../schema/user-schema";
 import { validate } from "../utils/validation";
@@ -59,6 +60,11 @@ export class UserService {
       throw new ResponseError(400, "Invalid email or password");
     }
 
-    return user;
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const token = await new jose.SignJWT({ sub: user.id }).sign(secret);
+
+    return {
+      token,
+    };
   }
 }

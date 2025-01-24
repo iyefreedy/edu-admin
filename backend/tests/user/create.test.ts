@@ -19,7 +19,7 @@ describe("POST /api/users", () => {
 
     expect(response.status).toBe(201);
     expect(response.body).toEqual({
-      id: expect.any(Number),
+      id: expect.any(String),
       name: input.name,
       email: input.email,
       role: input.role,
